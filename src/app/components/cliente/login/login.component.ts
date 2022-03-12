@@ -53,10 +53,7 @@ export class LoginComponent implements OnInit {
       cliente.Contrasena = value.contrasena;
 
       this.clienteService.postLogin(cliente).subscribe( data => {
-        //this.router.navigate(["login"]);
-        this._snackBar.open('Good', 'Cerrar', {
-          duration: 5000
-        });
+        this.router.navigate(["servicio"]);
       }, err => {
         if (err.status == 400){
           this._snackBar.open('Usuario y/o contraseña incorrecta', 'Cerrar', {
