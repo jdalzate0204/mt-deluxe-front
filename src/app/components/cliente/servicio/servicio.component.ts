@@ -2,7 +2,7 @@ import { ValidacionesPropias } from 'src/app/_model/utilidades/ValidacionesPropi
 import { ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { environment } from './../../../../environments/environment';
-//import { JwtHelperService } from '@auth0/angular-jwt';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -39,7 +39,7 @@ export class ServicioComponent implements OnInit {
   createFormGroupCalcular() {
     return new FormGroup({
       destino1: new FormControl('', [Validators.required]),
-      ubicacion1: new FormControl('', [Validators.required, ValidacionesPropias.verificacionSolicitud]),
+      ubicacion1: new FormControl('', [Validators.required, /*ValidacionesPropias.verificacionSolicitud*/]),
       descripcion: new FormControl
     });
   }
@@ -107,9 +107,9 @@ export class ServicioComponent implements OnInit {
   }
 
   solicitarServicio() {
-    //const helper = new JwtHelperService();
+    const helper = new JwtHelperService();
 
-    //var user = helper.decodeToken(sessionStorage.getItem(environment.TOKEN))["name"];
+    var user = helper.decodeToken(sessionStorage.getItem(environment.TOKENLOGIN)?.toString())["name"];
     if (this.formSolicitar.valid) {
       var obj = {
         idDestino: this.formCalcular.controls["destino1"].value,
@@ -118,8 +118,10 @@ export class ServicioComponent implements OnInit {
         kilometros: this.kilometros,
         tarifa: this.tarifa,
         pago: this.formSolicitar.controls["pag"].value,
-        usuario: "james"
+        usuario: user
       };
+
+      console.log(user);
 
       this.clienteService.postSolicitarServicio(obj).subscribe(data => {
         this._snackBar.open('Por favor espera a que uno de nuestros conductores acepte tu solictud, Recibirá un correo notificando su servicio', 'Cancel  ', {

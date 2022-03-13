@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Cliente } from 'src/app/_model/Cliente';
 import { ClienteService } from 'src/app/_service/cliente.service';
+import { environment } from 'src/environments/environment';
 import { ValidacionComponent } from '../../validacion/validacion.component';
 
 @Component({
@@ -53,10 +54,11 @@ export class LoginComponent implements OnInit {
       cliente.Contrasena = value.contrasena;
 
       this.clienteService.postLogin(cliente).subscribe( data => {
+        sessionStorage.setItem(environment.TOKENLOGIN, data.toString());
         this.router.navigate(["servicio"]);
       }, err => {
         if (err.status == 400){
-          this._snackBar.open('Usuario y/o contraseña incorrecta', 'Cerrar', {
+          this._snackBar.open(err.error.message, 'Cerrar', {
             duration: 5000
           });
         }
@@ -70,5 +72,4 @@ export class LoginComponent implements OnInit {
       });
     }
   }
-
 }
