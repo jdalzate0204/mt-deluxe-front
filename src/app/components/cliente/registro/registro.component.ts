@@ -28,7 +28,8 @@ export class RegistroComponent implements OnInit {
       fecha: new FormControl('', [Validators.required]),
       correo: new FormControl('', [Validators.required, Validators.email]),
       usuario: new FormControl('', [Validators.required]),
-      contrasena: new FormControl('', [Validators.required])
+      contrasena: new FormControl('', [Validators.required]),
+      confirmacion: new FormControl('', [Validators.required])
     });
   }
 
@@ -56,6 +57,9 @@ export class RegistroComponent implements OnInit {
     if(this.registroForm.controls.contrasena.hasError('required')){
       error.push("Digite una contraseña");
     }
+    if(this.registroForm.controls.confirmacion.hasError('required')) {
+      error.push("Confirme la contraseña");
+    }
 
     return error;
   }
@@ -71,6 +75,7 @@ export class RegistroComponent implements OnInit {
       cliente.Email = value.correo;
       cliente.Usuario = value.usuario;
       cliente.Contrasena = value.contrasena;
+      cliente.Confirmacion = value.confirmacion;
 
       this.clienteService.postRegistro(cliente).subscribe( data => {
         this._snackBar.open('Usuario registrado exitosamente', 'Cerrar', {
@@ -79,7 +84,8 @@ export class RegistroComponent implements OnInit {
         this.router.navigate(["login"]);
       }, err => {
         if (err.status == 400){
-          this._snackBar.open('Usuario existente, porfavor intente con otro', 'Cerrar', {
+          console.log(err);
+          this._snackBar.open(err.error.message, 'Cerrar', {
             duration: 5000
           });
         }

@@ -5,4 +5,5 @@ export class Cliente {
     Email!: String;
     Usuario!: String;
     Contrasena!: String;
+    Confirmacion!: String;
 }

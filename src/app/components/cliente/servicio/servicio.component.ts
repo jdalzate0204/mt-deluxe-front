@@ -39,10 +39,7 @@ export class ServicioComponent implements OnInit {
   createFormGroupCalcular() {
     return new FormGroup({
       destino1: new FormControl('', [Validators.required]),
-      ubicacion1: new FormControl('', [Validators.required,
-      //ValidacionesPropias.verificacionSolicitud
-      ]),
-
+      ubicacion1: new FormControl('', [Validators.required, ValidacionesPropias.verificacionSolicitud]),
       descripcion: new FormControl
     });
   }
@@ -138,11 +135,11 @@ export class ServicioComponent implements OnInit {
     this.formSolicitar.reset();
 
     Object.keys(this.formCalcular.controls).forEach(key => {
-      //this.formCalcular.get(key).setErrors(null);
+      this.formCalcular.get(key)?.setErrors(null);
     });
 
     Object.keys(this.formSolicitar.controls).forEach(key => {
-      //this.formSolicitar.get(key).setErrors(null);
+      this.formSolicitar.get(key)?.setErrors(null);
     });
   }
 
