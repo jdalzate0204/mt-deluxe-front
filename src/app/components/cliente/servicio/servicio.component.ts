@@ -40,12 +40,12 @@ export class ServicioComponent implements OnInit {
     return new FormGroup({
       destino1: new FormControl('', [Validators.required]),
       ubicacion1: new FormControl('', [Validators.required, /*ValidacionesPropias.verificacionSolicitud*/]),
-      descripcion: new FormControl
     });
   }
 
   createFormGroupSolicitar() {
     return new FormGroup({
+      descripcion: new FormControl,
       pag: new FormControl('', [Validators.required])
     });
   }
@@ -114,14 +114,12 @@ export class ServicioComponent implements OnInit {
       var obj = {
         idDestino: this.formCalcular.controls["destino1"].value,
         idUbicacion: this.formCalcular.controls["ubicacion1"].value,
-        descripcionServicio: this.formCalcular.controls["descripcion"].value,
+        descripcionServicio: this.formSolicitar.controls["descripcion"].value,
         kilometros: this.kilometros,
         tarifa: this.tarifa,
         pago: this.formSolicitar.controls["pag"].value,
         usuario: user
       };
-
-      console.log(user);
 
       this.clienteService.postSolicitarServicio(obj).subscribe(data => {
         this._snackBar.open('Por favor espera a que uno de nuestros conductores acepte tu solictud, Recibirá un correo notificando su servicio', 'Cancel  ', {
